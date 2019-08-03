@@ -88,10 +88,11 @@ public class Player {
  * 		player.move(1, 1);
  *        }
  *
- * 	/**
+ *
  * 	public void setDestination(int xValue, yValue) {
  * 		player.move(xValue, yValue);
  *    }
- *    */* }
+ *
+ * }
  */
 
