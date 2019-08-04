@@ -1,5 +1,7 @@
 package com.example.practice;
 
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.graphics.PointF;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -22,27 +24,26 @@ public class MainActivity extends AppCompatActivity {
         ConstraintLayout constraintLayout = (ConstraintLayout) findViewById(R.id.constraintLayout);
 
         constraintLayout.setOnTouchListener(new View.OnTouchListener() {
-            PointF DownPT = new PointF(); // Record Mouse Position When Pressed Down
-            PointF StartPT = new PointF(); // Record Start Position of 'img'
 
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                switch (event.getAction())
+
+                float tx = event.getX();
+                float ty = event.getY();
+
+                int action = event.getAction();
+                switch (action)
                 {
-                    case MotionEvent.ACTION_MOVE :
-                        /*image.setX((int)(StartPT.x + event.getX() - DownPT.x));
-                        image.setY((int)(StartPT.y + event.getY() - DownPT.y));
-                        StartPT.set( image.getX(), image.getY() );*/
-                        break;
                     case MotionEvent.ACTION_DOWN :
-                        image.setX(event.getX());
-                        image.setY(event.getY());
-                        /*DownPT.set( event.getX(), event.getY() );
-                        StartPT.set( image.getX(), image.getY() );*/
-                        break;
-                    case MotionEvent.ACTION_UP :
-                        // Nothing have to do
-                        break;
+                        tx = event.getX();
+                        ty = event.getY();
+
+                        ObjectAnimator animX = ObjectAnimator.ofFloat(image, "x", tx-135);
+                        ObjectAnimator animY = ObjectAnimator.ofFloat(image, "y", ty-135);
+                        AnimatorSet animSetXY = new AnimatorSet();
+                        animSetXY.playTogether(animX, animY);
+                        animSetXY.start();
+
                     default :
                         break;
                 }
