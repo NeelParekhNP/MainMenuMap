@@ -2,6 +2,7 @@ package com.example.practice;
 
 import android.content.Context;
 import android.graphics.PointF;
+import android.os.Handler;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,6 +16,11 @@ public class MainActivity extends AppCompatActivity {
 
     private ImageView image;
     private ConstraintLayout constraintLayout;
+    //Handler to create delays for animation
+    private Handler timeControl = new Handler();
+
+    private float newX;
+    private float newY;
 
 
     @Override
@@ -48,8 +54,22 @@ public class MainActivity extends AppCompatActivity {
                         StartPT.set( image.getX(), image.getY() );*/
                         break;
                     case MotionEvent.ACTION_DOWN :
-                        image.setX(findNearestGridX(event.getX()));
-                        image.setY(findNearestGridY(event.getY()));
+
+                        // Set the x and y values separately
+                        newX = findNearestGridX(event.getX());
+                        newY = findNearestGridY(event.getY());
+
+                        // wait for a second before moving
+                        timeControl.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                image.setX(newX);
+                                image.setY(newY);
+                            }
+                        }, 1000);
+
+
+
                         /*DownPT.set( event.getX(), event.getY() );
                         StartPT.set( image.getX(), image.getY() );*/
                         break;
